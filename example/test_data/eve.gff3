@@ -1,0 +1,14 @@
+2R	FlyBase	gene	50001	51477	.	+	.	ID=FBgn0000606;Name=eve;fullname=even
+2R	FlyBase	mRNA	50001	51477	.	+	.	ID=FBtr0088390;Name=eve-RA;Parent=FBgn0000606;Alias=CG2328-RA;Dbxref=FlyBase_Annotation_IDs:CG2328-RA,REFSEQ:NM_078946;score_text=Strongly
+2R	FlyBase	exon	50001	50235	.	+	.	Name=eve:1;Parent=FBtr0088390;parent_type=mRNA
+2R	FlyBase	five_prime_UTR	50001	50096	.	+	.	Name=eve-u5;Parent=FBtr0088390;parent_type=mRNA
+2R	FlyBase	protein	50097	51295	.	+	.	ID=FBpp0087478;Name=eve-PA;Derives_from=FBtr0088390;Alias=CG2328-PA;Dbxref=FlyBase_Annotation_IDs:CG2328-PA,REFSEQ:NP_523670,GB_protein:AAF58865;derived_molecular_weight=39970.0;derived_isoelectric_point=9.73
+2R	FlyBase	CDS	50097	50235	.	+	0	Name=eve-cds;Parent=FBtr0088390;parent_type=mRNA
+2R	FlyBase	intron	50236	50306	.	+	.	Name=eve-in;Parent=FBtr0088390;parent_type=mRNA
+2R	FlyBase	exon	50307	51477	.	+	.	Name=eve:2;Parent=FBtr0088390;parent_type=mRNA
+2R	FlyBase	CDS	50307	51298	.	+	2	Name=eve-cds;Parent=FBtr0088390;parent_type=mRNA
+2R	FlyBase	point_mutation	50391	50391	.	+	.	ID=eve[2]_point_mutation;Name=eve[2];related_allele=FBal0003884;evidence=experimental;pr_change=T75I|eve-PA;na_change=C5867214T
+2R	FlyBase	point_mutation	50483	50483	.	+	.	ID=eve[3]_point_mutation;Name=eve[3];related_allele=FBal0003885;evidence=experimental;pr_change=Q106@|eve-PA;na_change=C5867306T
+2R	FlyBase	point_mutation	50529	50529	.	+	.	ID=eve[1]_point_mutation;Name=eve[1];related_allele=FBal0003883;evidence=experimental;pr_change=R121H|eve-PA;na_change=G5867352A
+2R	FlyBase	sequence_variant	50930	51144	.	+	.	ID=eve[5]_sequence_variant;Name=eve[5];related_allele=FBal0086630;evidence=experimental
+2R	FlyBase	three_prime_UTR	51299	51477	.	+	.	Name=eve-u3;Parent=FBtr0088390;parent_type=mRNA

@@ -1,0 +1,68 @@
+/* Copyright (c) 2000 by Martin Tompa and Saurabh Sinha.
+ * All rights reserved.  Redistribution is not permitted without the 
+ * express written permission of the authors.
+ * The program YMF implements an algorithm for identifying
+ * likely transcription factor binding sites in yeast, described in the
+ * following paper:
+ "A Statistical Method for Finding Transcription Factor Binding Sites"
+ by Saurabh Sinha and Martin Tompa,
+ Eighth International Conference on Intelligent Systems for
+ Molecular Biology, San Diego, USA, August 2000, 344-354.
+ */ 
+
+This directory contains source code for the "preproc" program. 
+Read the following paragraph to find out if you need this program.
+
+Why you might need this program
+-------------------------------
+The "stats" program uses two data files called "*_powers.3" and "*_table.3",
+where the '*' stands for 'yeast' or 'human' or whichever organism is being considered.
+These files capture the background distribution of bases in the upstream
+regions of the genes of interest. Prepared versions of these files for yeast and 
+human are made available in this package and can be found in ymftables/
+If you have some other set of upstream regions that you wish to use as the background, you 
+need to create the "<organism>_powers.3" and "<organism>_table.3" files 
+for <organism> yourself. Use the preproc program for this purpose. 
+
+A note on using this program
+----------------------------
+Typically the input regions to this program will contain ALL the upstream
+regions that you wish to include in determining the background ditribution. 
+This is typically a much larger set of regions that the set that the program
+"stats" will be run on.
+-------------------------------------------------------------------------
+
+*******************
+compile like this (assuming you have compiled the matrix library - see matrix/README) 
+*******************
+g++ -O -I../matrix -L../matrix -o preproc main.cpp preproc.cpp -lmat -lm
+-------------------------------------------------------------------------
+
+******
+usage:
+******
+preproc <numRegions> <fname1> ... 
+
+numRegions: The number of input DNA regions. (this has nothing to do with
+the number of files that contain these regions)
+Each file can have multiple regions.
+Each region's sequence can be split across mutliple lines.
+Each region must be preceded by a "descriptor line" that 
+begins with a '>'. (see the input file format for "stats")
+e.g., the input regions could be in FastA format.
+
+fnamei    : ith DNA file. 
+
+*********
+output : 
+*********
+
+Three files are output by the above : powers.3 and table.3 and powersGeneralized.3.bin.  
+
+Copy the first two in the "ymftables/" directory and prefix them with "<organismname>_".
+e.g, if you rand preproc on upstream sequences of c.elegans, and got these
+three files, you could rename them as celegans_powers.3 and celegans_table.3
+
+The third file, powersGeneralized.3.bin is not needed by ymf. You may delete this if you do not 
+wish to run the find_explanators program (available also on our web site) as a post 
+processing tool.

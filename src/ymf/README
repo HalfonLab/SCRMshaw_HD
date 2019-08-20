@@ -1,0 +1,140 @@
+/* Copyright (c) 2000 by Martin Tompa and Saurabh Sinha.
+ * All rights reserved.  Redistribution is not permitted without the 
+ * express written permission of the authors.
+ * The program YMF implements an algorithm for identifying
+ * likely transcription factor binding sites in yeast, described in the
+ * following paper:
+ "A Statistical Method for Finding Transcription Factor Binding Sites"
+ by Saurabh Sinha and Martin Tompa,
+ Eighth International Conference on Intelligent Systems for
+ Molecular Biology, San Diego, USA, August 2000, 344-354.
+ */ 
+
+If compiling on Linux, with the GNU C++ compiler, 
+*************
+Compile using
+*************
+g++ -O2 -o statsvar main.cpp expect.cpp variance.cpp -lm 
+
+The above step produces an executable called "statsvar" in the current directory.
+This is the main motif finding program.
+-----------------------------------------------------------------------------------------------------
+
+Motif model : flexible number of N's in the middle
+fixed number of non-Ns (6-10)
+|R+Y+W+S| <= NUM_RYWS -- set this parameter in the configfile
+no K,M
+-----------------------------------------------------------------------------------------------------
+   
+******
+Usage:
+******
+statsvar configfile lenRegion lenOligo pathoforganismtables [-sort] regionfile1 regionfile2...
+-----------------------------------------------------------------------------------------------------
+   
+PARAMETERS: 
+configfile: a file containing some constants that the program uses .. can be easily configured.
+
+lenRegion : the maximum length of the upstream regions in which motif is to be searched.
+The input regions can be of different lengths.
+
+lenOligo  : the (significant) length of the motifs to find - between 6 and 10. (6,7 recommended
+for efficiency). The significant length is the number of non-spacer characters in the 
+motif. Such characters can be chosen from the set {A,C,G,T,R,Y,W,S}.
+
+pathoforganismtables : For yeast, use the string "../ymftables/yeast". For human, use
+"../ymftables/human". If you have created your own files (using program preproc), 
+renamed them as mentioned in preproc/README and placed them in ../ymftables/, then 
+you could use the string "../ymftables/<organism>" where "<organism>_" is the prefix 
+you gave to your files.
+
+sort : if this optional argument is present (just before the regionfile arguments), then
+the final results file is sorted on z-scores.
+
+regionfile1, regionfile2, etc. : a file containing the upstream region.
+The format is described below. Also, see example regionfiles in directory "examples". 
+
+
+CONFIGFILE FORMAT:
+(NOTE: An example configfile "stats.config" is provided in the directory "statsvar". This 
+default file uses reasonable values of the configurable parameters described above.)
+
+Each line has some numbers (or number ranges) in the beginning, and then 
+some explanatory comments after "//"
+
+1. The first line gives the number of "categories" of output motifs. 
+A category corresponds to a range of numbers - a range of i..j means that this category 
+consists of motifs that have at least i and at most j spacers in the middle (see 
+motif model above.) For example, you could ask for the 10 best motifs in each of two 
+categories - category 1, consisting of motifs with 0-3 spacers, and category 2, that has 
+motifs with 4-11 spacers. This version allows a maximum of 25 spacers to be specified.
+
+2. Lines 2,3 .. (1 + <number of categories>) specify the actual ranges for the categories.
+The range is followed by a number that indicates how many top ranking motifs are 
+to be displayed for this category. 
+Thus in the above example, when line 1 is "2", the second line will be "0..3 10" and 
+line 3 will be "4..11 10".
+
+3. The next line gives NUM_RYWS, the maximum number of characters from the set {R,Y,W,S} 
+that are included in the motif-space searched.  Keep this parameter at 2 or less for
+efficiency.
+
+4. The following line is the "MIN_TOTAL_COUNT" - this indicates how many times a motif
+must occur (at least) to be considered for being output. thus a "MIN_TOTAL_COUNT" of 
+4 means that any motif that is output will not only have a high z-score, but will also
+have occurred at least four times in the input regions. In this case, a motif that occurs
+less that 4 times and yet somehow has a very high z-score will not be reported. You can
+keep this parameter at 1 if you dont wish to eliminate any motif. Increasing this
+parameter increases efficiency.
+
+5. The next (last) line in the file gives the maximum number of input regions you will
+run this program on. if you know the exact number, simply use that as this parameter. 
+otherwise, use a number that you are certain is greater than the number of input regions.
+note that the number of input regions has nothing to do with the number of files that 
+are used to specify these regions.
+
+REGION FILE FORMAT:
+
+1. The "statsvar" program can take multiple files as input regionfiles.
+
+2. Each file can contain multiple input regions.
+
+3. The format is very similar to FastA format. In fact, FastA format is acceptable.
+Each input region is preceded by a single line of comments and description.  This line must 
+begin with a ">". The characters in the line after the ">" can be arbitrary. All these 
+characters are ignored while reading the region.  This preceding line is called the "descriptor" line.
+The next line begins the region. The region sequence may be split into mutliple lines.  Only 
+A,C,G,T are allowed in the region. The last line of a region is either the last line of the file, 
+or is followed by the descriptor line of the next region.
+
+4. EACH input region can have A DIFFERENT LENGTH.
+-----------------------------------------------------------------------------------------------------
+
+*******
+OUTPUT:
+*******
+The found motifs are stored in a file called "results" in current directory.
+
+RESULT FILE FORMAT:
+
+1. The motifs in each of the categories specified in the configfile are displayed as a separate
+group. The motifs in each group are NOT sorted by z-score (by default). The -sort argument 
+forces the entire results file to be sorted by z-score. Group boundaries are not maintained in
+such a case.
+
+2. Each motif line has the following three pieces of information:
+
+<motif sequence> <number of occurrences> <z-score> <expectation> <variance>
+
+motif sequence: the sequence of bases in the motif
+
+number of occurrences: total number of times the motif occurs in the input regions. 
+We count twice for each occurrence of a palindrome, one for the occurrence on either
+strand.
+
+z-score: the significance of the motif. the higher the better.	
+
+expectation: the expected count of the motif in the given number of regions
+
+variance: the variance of the above count
+-----------------------------------------------------------------------------------------------------

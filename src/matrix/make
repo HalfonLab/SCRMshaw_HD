@@ -1,0 +1,3 @@
+g++ -c matrix.cpp
+ar rv libmat.a matrix.o
+cp libmat.a ../lib
