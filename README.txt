@@ -2,7 +2,17 @@
 #                                                                                             #
 #                       SCRMshaw: Genome-wide CRM Prediction Program                          #
 #                                                                                             #
+#                 this version is the "HD" version (see Asma and Halfon, 2019)                #
+#                        previous versions are not actively maintained                        #
+#                 this version will work identical to earlier versions if run                 #
+#                 with --lb option set to 0 (default)                                         #
+#                                                                                             #
+#              maintained by the Halfon lab (http://halfonlab.ccr.buffalo.edu)                #
+#                                                                                             #
+#-------------------------------Original Version credits:-------------------------------------#
+#                                                                                             #
 #                           Authors: Casey Hanson and Wei Yang                                #
+#                                                                                             #
 #                                                                                             #
 #                           Email: weiyang4@illinois.edu                                      #
 #                           Date: Sept 2014                                                   #
@@ -20,6 +30,10 @@
             ---------------
 
 SCRMshaw is a genome-wide CRM prediction program (SCRMshaw.tar.gz), described and used in the following papers: Majid Kazemian et al 2011 and Miriam R. Kantorovitz and Majid Kazemian et al 2009. For details about the methods and procedures of this program please see the METHOD part of these two papers. The SCRMshaw program learns parameters from a list of CRMs that regulates the same spatial/temporal gene expression pattern, and predicts CRMs with similar functionality genome-wide. This verson of SCRMshaw program is designed for predicting CRMs in the genome sequence of model/non-model species given the known CRMs provided by users. Users can also choose three different scoring schemes as described in the papers to predict CRMs: IMM, PAC and HexMCD.
+
+For a detailed protocol see Kazemian and Halfon (2019). Methods Mol. Biol. 1858:117-139. For details on the "HD" variant protocol see Asma and Halfon (2019). BMC Bioinformatics 20:174.
+
+
 
             2. INSTALLATION
             ---------------
@@ -84,6 +98,7 @@ Here is a useful instruction for installing BioPerl: http://www.bioperl.org/wiki
         --universeMap <str>     mapping between CRM training set and Universal Gene Set
         --wlen <int>            size of windows, default=500. The target sequence will be cut into window size sequences, and each window will be scored by scoring schemes.
         --wshift <int>          size of window shifts, default=250. This is the length of overlap between two windows and hence should be smaller than the value in '--wlen'.
+        --lb <int>              left boundary i.e. starting point to take windows on each chromosome/scaffold, default = 0
         --wkmer <str>           size of 'k' for counting k-mer frequency in each window, default=1,6. Here we generate k-mer frequency files for PAC and HexMCD scoring schemes with k = 1 and 6. We do not recommed you to change this parameter unless you are an experienced user.
         --imm                   use IMM scoring scheme to score predicted CRMs.
         --hexmcd                use HexMCD scoring scheme to score predicted CRMs.
@@ -115,8 +130,12 @@ training/
 More details about the meaning and format of output directories and files can be found in the 'example' directory, in which there is a toy dataset, output of the toy dataset and the README file. We highly recommend you to do the test run by using the toy dataset in this directory and please do read the README file.
 
 
-            4. REFERENCES
-            -------------
+         4. REFERENCES
+         ---------------
+
+Asma H and Halfon MS. Computational Enhancer Prediction: Evaluation and Improvements. BMC Bioinformatics 2019;20(1):174.
+
+Kazemian M and Halfon MS. CRM Discovery Beyond Model Insects. Methods in Molecular Biology 2019;1858:117–39. 
 
 Kazemian M, Zhu Q, Halfon MS, Sinha S. Improved accuracy of supervised CRM discovery with interpolated Markov models and cross-species comparison. Nucleic Acids Res. 2011;39(22):9463-72.
 
