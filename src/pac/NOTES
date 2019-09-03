@@ -1,0 +1,16 @@
+compare_poisson.cpp computes the additive and product poisson score
+in the following setup.
+file1 contains (wordcounts for) all crm sequences from fly.
+file2 contains (word counts for) each window in a sequence to be 
+analyzed in bee.
+
+compare_poisson_subset uses a subset of words. 
+file3 contains the subset of words to be considered.
+The output gives window-index and window-score for all windows.
+
+The product version has an underflow problem. Use additive version.
+
+in bin/,
+poisson and poisson_subset are the product version. Has a bug.
+
+use: poisson_additive and poisson_additive_subset.

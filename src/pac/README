@@ -1,0 +1,14 @@
+g++ -O -I../matrix -L../matrix -o preproc main.cpp preproc.cpp -lmat -lm
+
+This directory contains source code for a matrix library that is
+used by the preproc program. 
+
+******************
+COMPILE AS FOLLOWS
+******************
+./make
+
+This creates a library archive called libmat.a
+This library file is needed by the preproc program.
+
+
