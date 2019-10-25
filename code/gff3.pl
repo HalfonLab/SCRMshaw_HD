@@ -32,15 +32,14 @@ if ($elem eq 'gene'){
 	$feat_hash{'exon'}++;
 	
 } else {
-	open(FEATURES, ">$elem") or die "Unable to open features file: $!";
+	open(FEATURES, "<$elem") or die "Unable to open features file: $!";
 	while(<FEATURES>){
 		chomp;
 		$feat_hash{$_}++;  #store the desired features
 	}	
+	
 	close(FEATURES);
 }	
-
-
 
 
 # Open gff file
@@ -55,7 +54,7 @@ while(my $line = <IFILE>){
 			$strand, $phase,	$attr)	= split('\s+', $line);
 	
 	#if an accepted feature type, parse the line
-	if (exists %feat_hash{$elem}) {   	
+	if (exists $feat_hash{$type}) {   	
 		my $chr = $1 if $seqid 	=~ /(\S+)/;
 		my $id = "";
 		if($attr =~ /;/){
@@ -67,6 +66,7 @@ while(my $line = <IFILE>){
 		print "$chr\t$start\t$end\t$strand\t$id\n";
 		
 	} else {
+		#print "$type not recognized\n";
 		next; 	## if not indicated type, next
 	}		
 }
