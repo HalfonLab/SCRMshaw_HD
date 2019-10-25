@@ -18,4 +18,4 @@ Version 1.1:
 
 -revised "scrm.pl" to convert relative file paths to absolute file paths for the major input files
 
--added a '-features' option to "scrm.pl" to allow for input of a list of accepted genome features (based on SO terms in the second field of the GFF file) instead of only the default option 'gene'. Corresponding changes made to "gff3.pl" to use this file as a source of acceptable terms.   
+-added a '-features' option to "scrm.pl" to allow for input of a list of accepted genome features (based on SO terms in the third field of the GFF file) instead of only the default option 'gene'. Corresponding changes made to "gff3.pl" to use this file as a source of acceptable terms.   
