@@ -1,5 +1,8 @@
 #!/usr/bin/perl
-
+#modified 01-13-2020 by Hasiba Asma(HA)
+#following changes were made to fix PAC issue
+#instead of moving files back and forth, i have changed the directory to the respective training set's directory
+#then ran preproc and statsvar from Bin and finally at the end changed the directory back to where it was
 =head1 Description
 
     This script runs ymf, which is needed by PAC.
@@ -46,9 +49,17 @@ my $odir = $ARGV[2];		## Output directory.
 
 ## Check exit conditions
 die `pod2text $0` if (@ARGV != 3 || $help);
+#HA--orig dir
+my $origdir=`pwd`;
 
 ## Make output directory if necessary
 if (! -d $odir) {	system("mkdir -p $odir");}
+
+#HA--change dir
+chomp($odir);
+chdir($odir);
+my $p=`pwd`;
+#warn "inside tset dir that is my pwd: $p \n";
 
 my ($nneg) = qx/grep \">\" $nfile | wc -l/;		## Number of negative sequences.
 chomp($nneg);
@@ -57,18 +68,24 @@ chomp($nneg);
 #warn "$Bin/../bin/preproc $nneg $nfile\n";
 system("$Bin/../bin/preproc $nneg $nfile");
 
+#HA--comment the following
 ## Move intermediary files
-system("mv $tfile $odir/_$tfile; mv $wfile $odir/_$wfile; mv $bfile $odir/_$bfile");
+#system("mv $tfile $odir/_$tfile; mv $wfile $odir/_$wfile; mv $bfile $odir/_$bfile");
+#HA--to preserve naming
+system("cp $tfile _$tfile; cp $wfile _$wfile; cp $bfile _$bfile");
 
 ## use the above tables in YMF runs on the training crms
 #warn("$Bin/../bin/statsvar $Bin/../bin/stats.config 30000 6 $odir/ -sort $pfile");
 system("$Bin/../bin/statsvar $Bin/../src/ymf/config/stats.config 30000 6 $odir/ -sort $pfile");
 
+#HA--comment the following
 ## Move intermediary files
-system("mv $rfile $odir/$rfile");
+#system("mv $rfile $odir/$rfile");
 
+#HA--fix path
 ## read in the words file
-open(IFILE, "<$odir/$rfile") or die("Couldn't open $odir/results for reading\n");
+#open(IFILE, "<$odir/$rfile") or die("Couldn't open $odir/results for reading\n");
+open(IFILE, "<$rfile") or die("Couldn't open $odir/results for reading\n");
 my $header = <IFILE>; #toss out the header
 my $words = "";
 for (my $i = $size; $i; $i--){
@@ -79,11 +96,19 @@ for (my $i = $size; $i; $i--){
 }
 close(IFILE);
 
-open( OFILE,">$odir/ymf.$size.fasta") or die("Couldn't open $odir/ymf.$size.fasta writing\n");
+#HA--fix path
+#open( OFILE,">$odir/ymf.$size.fasta") or die("Couldn't open $odir/ymf.$size.fasta writing\n");
+open( OFILE,">ymf.$size.fasta") or die("Couldn't open $odir/ymf.$size.fasta writing\n");
 print OFILE ">ymfwords\tsize=$size,k=$k\n$words\n";
 close(OFILE);
 
+#HA--- undo remove
 ## Remove YMF intermediary output
-system("rm $odir/_$tfile $odir/_$wfile $odir/_$bfile $odir/$rfile");
+#system("rm $odir/_$tfile $odir/_$wfile $odir/_$bfile $odir/$rfile");
 
+#HA--change back to orig directory
+chomp($origDir);
+chdir($origDir);
+my $cd=`pwd`;
+#warn "back to orig directory so my pwd is: $cd \n";
 
