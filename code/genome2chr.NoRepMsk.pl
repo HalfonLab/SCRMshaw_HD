@@ -64,7 +64,7 @@ while (my $f = $fo->next_seq()){
     $seq =~ s/\s+//g;
     $seq =~ tr/atgc/ATGC/;
     my $len = length($seq);
-    if ($Exon && !defined($keep{$chr}))  { next;}   ## next if there is exon file but not keep{chr}
+   # if ($Exon && !defined($keep{$chr}))  { next;}   ## next if there is exon file but not keep{chr}
     if (defined($seen{$chr}))   { next;}        ## next if $seen{$chr}
 	$seen{$chr} = 1;            ## seen{chr}
 	my $ofile_dir	=	"$odir/$chr.fasta";     ## output to file

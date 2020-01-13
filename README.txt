@@ -108,6 +108,7 @@ Here is a useful instruction for installing BioPerl: http://www.bioperl.org/wiki
         --distance <int>        distance between CRMs and its nearby genes (both of up and downstream), default=50000. For example, if the length of a gene is 1000, the program will look at +50000,1000,-50000, so it is a total of 101000 length region. This parameter is used to define the region for local rank of CRMs per gene. 
         --step <str>            choose the steps to be ran in the pipeline, default=123. Step1 is to process gff3 file (if you use gff as input) and target sequence file, step2 is to process the training data sets, and step3 is to run the scoring schemes. We recommend you to run all steps in the first run so that all directories needed in other steps can be created properly. After the first run, however, you can choose to run step 2 and 3 only to perform CRM prediction with added training sets and do not need to re-run the gff and genome preprocess steps.
         --outdir <str>          output directory, default=./ . You can redirect the output directory using this option. 
+        --features <str>		a file containing a list of features (e.g. 'gene', 'ncRNA') to parse from the GFF file of genome annotations for the "gene" file; default='gene'.
 
 4. OUTPUT:
 

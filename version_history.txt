@@ -1,0 +1,21 @@
+SCRMshaw version history
+
+
+SCRMshaw_HD v1.0:
+The 1.0 version of SCRMshaw_HD differs from the originally published version in the following ways:
+
+-addition of the '-lb' option in "scrm.pl" and corresponding changes in "windows.pl" to incorporate the 'offset' parameter
+
+-correction of a bug in "top_scores.ReAsgnNrbGene.pl" regarding chr name parsing
+
+-correction of a bug in "top_scores.ReAsgnNrbGene.pl" regarding FASTA header parsing
+
+-correction of a bug in "gff.pl" that incorrectly handled instances when the attribute field contained only a single entry
+
+
+Version 1.1:
+-fixed bug in "genome2chr.NoRepMsk.pl" that required presence of an 'exon' file
+
+-revised "scrm.pl" to convert relative file paths to absolute file paths for the major input files
+
+-added a '-features' option to "scrm.pl" to allow for input of a list of accepted genome features (based on SO terms in the third field of the GFF file) instead of only the default option 'gene'. Corresponding changes made to "gff3.pl" to use this file as a source of acceptable terms.   

@@ -26,6 +26,7 @@
     --lb <int>              left boundary i.e. starting points to take windows on each chromosome, default = 0
     --step <str>            choose the steps to be ran in the pipeline, default=123. Step1 is to parse gff file and to process target sequence, step2 is to process the training data sets, and step3 is to run the scoring schemes.
     --outdir <str>          output directory, default=./
+    --features <str>		a file containing a list of features (e.g. 'gene', 'ncRNA') to parse from the GFF file of genome annotations for the "gene" file; default='gene'
     --help                  output help information to screen
 
 =head1 Example
@@ -38,11 +39,12 @@ use strict;
 use FindBin qw($Bin $Script);
 use Getopt::Long;
 use File::Basename;
+use File::Spec;
 use Data::Dumper;
 
 my $t_start=time();
 
-my ($Help, $Gff, $Gene, $Exon, $Imm, $Hexmcd, $Pac, $Genome, $Universe_orth, $Train_dir_lst);
+my ($Help, $Gff, $Gene, $Exon, $Imm, $Hexmcd, $Pac, $Genome, $Universe_orth, $Train_dir_lst, $feature_list);
 my $Outdir = ".";
 my ($Wlen, $Wshift) = (500, 250);
 my ($Wkmer) = ("1,6");
@@ -74,6 +76,7 @@ GetOptions(
     "step:s"=>\$Step,
     "distance:i"=>\$Distance,
     "lb:i"=>\$offset,	##left boundary, i.e., starting points to take windows on chr
+    "features:s"=>\$feature_list,
     "help"=>\$Help
 );
 
@@ -122,6 +125,28 @@ my $pac_param = "-rc";
 `mkdir $Outdir/scores/pac` unless (-d "$Outdir/scores/pac");
 `mkdir $Outdir/hits/pac` unless (-d "$Outdir/hits/pac");
 
+##============ convert to absolute file paths (added Oct 2019) ===========##
+
+if (defined $Gff){
+	$Gff = File::Spec->rel2abs($Gff);
+}	
+
+if (defined $Exon){
+	$Exon = File::Spec->rel2abs($Exon);
+}
+
+if (defined $Gene){
+	$Gene = File::Spec->rel2abs($Gene);	
+}
+
+$Genome = File::Spec->rel2abs($Genome);	
+
+if (defined $feature_list){
+	$feature_list = File::Spec->rel2abs($feature_list);	
+} else {
+	$feature_list = "gene";
+}		
+
 ##================== Step 1 ===================##
 if ($Step =~ /1/){
     warn "Step1: preprocessing gff file and target sequence...\n";
@@ -132,7 +157,7 @@ if ($Step =~ /1/){
         `$Bin/../code/gff3.pl $Gff exon > $Outdir/gff/exons`;
         $Exon = "$Outdir/gff/exons";
         ##======== generate gene file ===========##
-        `$Bin/../code/gff3.pl $Gff gene > $Outdir/gff/genes`;
+        `$Bin/../code/gff3.pl $Gff $feature_list > $Outdir/gff/genes`;
         $Gene = "$Outdir/gff/genes";
     }
     else{   ## if no gff file as input
