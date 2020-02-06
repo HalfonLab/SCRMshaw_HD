@@ -50,7 +50,7 @@ my $odir = $ARGV[2];		## Output directory.
 ## Check exit conditions
 die `pod2text $0` if (@ARGV != 3 || $help);
 #HA--orig dir
-my $origdir=`pwd`;
+my $origDir=`pwd`;
 
 ## Make output directory if necessary
 if (! -d $odir) {	system("mkdir -p $odir");}
@@ -111,4 +111,3 @@ chomp($origDir);
 chdir($origDir);
 my $cd=`pwd`;
 #warn "back to orig directory so my pwd is: $cd \n";
-
