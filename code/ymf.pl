@@ -59,6 +59,7 @@ if (! -d $odir) {	system("mkdir -p $odir");}
 chomp($odir);
 chdir($odir);
 my $p=`pwd`;
+chomp($p);
 #warn "inside tset dir that is my pwd: $p \n";
 
 my ($nneg) = qx/grep \">\" $nfile | wc -l/;		## Number of negative sequences.
@@ -76,8 +77,8 @@ system("cp $tfile _$tfile; cp $wfile _$wfile; cp $bfile _$bfile");
 
 ## use the above tables in YMF runs on the training crms
 #warn("$Bin/../bin/statsvar $Bin/../bin/stats.config 30000 6 $odir/ -sort $pfile");
-system("$Bin/../bin/statsvar $Bin/../src/ymf/config/stats.config 30000 6 $odir/ -sort $pfile");
-
+#system("$Bin/../bin/statsvar $Bin/../src/ymf/config/stats.config 30000 6 $odir/ -sort $pfile");
+system("$Bin/../bin/statsvar $Bin/../src/ymf/config/stats.config 30000 6 $p/ -sort $pfile");
 #HA--comment the following
 ## Move intermediary files
 #system("mv $rfile $odir/$rfile");
