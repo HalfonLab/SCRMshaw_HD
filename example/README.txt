@@ -25,7 +25,7 @@ ___ ./test_data/
 4) 'eve.gff3': a gff3 file of gene eve from Dmel. Ideally this file should have all of the genes within the target sequences. A gff3 file is an optional input in the pipeline, and it will be used to generate 'exons' and 'genes' files. The exon file will is needed to mask exon regions in the query sequences and a gene file will be used to report top-scored windows. Instead of using a gff3 file, you can also choose to input 'exons' and 'genes' files directly. Please note that you will still be able to get top-scored windows without gff or gene file.
 =====================================================================================
 
-Command line to run SCRMshaw on the toy data (you can run it in your current directory by copy-and-paste this command line):
+Command line to run SCRMshaw on the toy data (you can run it in your current directory (assuming you are in this example directory) by copy-and-paste this command line):
 
 ## Test run with gff file as input:
 >perl ../code/scrm.pl --thitg 300 --gff ./test_data/eve.gff3 --imm --hexmcd --pac --genome ./test_data/eve.location.fa --traindirlst ./test_data/trainingSet.lst --outdir ./test_output_1
