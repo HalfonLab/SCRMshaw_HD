@@ -80,6 +80,7 @@ Step2. Run it with: TandemRepeatFinder InputFasta 2 7 7 80 10 50 500 -m -h
 
 2. USAGE:
 
+Highly Recommended OS: We have had issues with running it on MacOS, so we highly recommend you to run it on Linux/Ubuntu.
 Before trying to run your own data, we highly recommend you to do a test run using the toy data in the 'example' directory. What you need to do is to go into 'example' directory, copy the command line in README file, paste the command line and run it. This would help to familiarize youself to SCRMshaw as well as the input and parameter settings.
 
 >perl /SCRMshaw/code/scrm.pl [options] --genome TargetSequence --traindirlst TrainingSetList
