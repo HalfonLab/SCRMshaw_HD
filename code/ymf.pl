@@ -27,7 +27,7 @@ use FindBin qw($Bin $Script);
 use File::Basename;
 use Getopt::Long;
 use Bio::SeqIO;
-use File::Spec;
+
 #my $root 	= "/shared-mounts/sinhas-storage1/kruppel/pipeline";
 my $k = 6;					## k-mer length
 my $size = 100;				## Top words
@@ -47,10 +47,6 @@ my $pfile = $ARGV[0];		## Positive FASTA file
 my $nfile = $ARGV[1];		## Negative FASTA file
 my $odir = $ARGV[2];		## Output directory.
 
-#absolute path
-$pfile = File::Spec->rel2abs($pfile);
-$nfile = File::Spec->rel2abs($nfile);
-$odir = File::Spec->rel2abs($odir);
 ## Check exit conditions
 die `pod2text $0` if (@ARGV != 3 || $help);
 #HA--orig dir
