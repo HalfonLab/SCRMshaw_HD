@@ -154,10 +154,10 @@ if ($Step =~ /1/){
     if (defined $Gff){      ## if has gff file as input
         warn "Parsing gff3 file...\n";
         ##======== generate exon file ===========##
-        `$Bin/../code/gff3.pl $Gff exon > $Outdir/gff/exons`;
+        `perl $Bin/../code/gff3.pl $Gff exon > $Outdir/gff/exons`;
         $Exon = "$Outdir/gff/exons";
         ##======== generate gene file ===========##
-        `$Bin/../code/gff3.pl $Gff $feature_list > $Outdir/gff/genes`;
+        `perl $Bin/../code/gff3.pl $Gff $feature_list > $Outdir/gff/genes`;
         $Gene = "$Outdir/gff/genes";
     }
     else{   ## if no gff file as input
